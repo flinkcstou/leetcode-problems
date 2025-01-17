@@ -453,4 +453,45 @@ public class HashTableProblems {
         return newNums;
 
     }
+
+    class RandomizedSet {
+        // посмотреть задачи которые люди решали в submission details там есть решение с двумя map посмотри, пойми и реши также
+
+        Set<Integer> set = new HashSet<>();
+        List<Integer> list = new ArrayList<>();
+        Random random = new Random();
+        boolean isChanged = false;
+
+        public RandomizedSet() {
+            set = new HashSet<>();
+        }
+
+        public boolean insert(int val) {
+            boolean a = set.add(val);
+            if (!isChanged) {
+                isChanged = a;
+            }
+            return a;
+        }
+
+        public boolean remove(int val) {
+            boolean a = set.remove(val);
+            if (!isChanged) {
+                isChanged = a;
+            }
+            return a;
+        }
+
+        public int getRandom() {
+            if (isChanged) {
+                list = new ArrayList<>();
+                list.addAll(set);
+                isChanged = false;
+            }
+
+            int i = random.nextInt(list.size());
+
+            return list.get(i);
+        }
+    }
 }
