@@ -77,7 +77,7 @@ public class LinkedListProblems {
         return null;
     }
 
-    public ListNode removeNthFromEnd(ListNode head, int n) {
+    public static ListNode removeNthFromEnd(ListNode head, int n) {
         // todo nabu solve this problems by fast and slow pointer
         if (n == 0) {
             return head;
@@ -108,6 +108,25 @@ public class LinkedListProblems {
 
 
         return head;
+
+    }
+
+    public static ListNode reverseList(ListNode head) {
+
+        // Написать, нарисовать flow как работает этот алгоритм
+
+        ListNode first = null;
+        ListNode node = head;
+        ListNode temp = null;
+
+        while (node != null) {
+            temp = node.next;
+
+            node.next = first;
+            first = node;
+            node = temp;
+        }
+        return first;
 
     }
 
