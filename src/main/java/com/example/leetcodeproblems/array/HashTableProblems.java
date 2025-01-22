@@ -6,8 +6,20 @@ public class HashTableProblems {
 
     public static void main(String[] args) {
 
+//        System.out.println(Arrays.toString(topKFrequent(new int[]{1, 1, 1, 2, 2, 3}, 2)));
 
-        System.out.println(Arrays.toString(topKFrequent(new int[]{1, 1, 1, 2, 2, 3}, 2)));
+        MyLinkedList myLinkedList = new MyLinkedList();
+        myLinkedList.addAtHead(7);
+        myLinkedList.addAtHead(2);
+        myLinkedList.addAtHead(1);
+        myLinkedList.addAtIndex(3, 0);
+        myLinkedList.deleteAtIndex(2);
+        myLinkedList.addAtHead(6);
+        myLinkedList.addAtTail(4);
+        myLinkedList.get(4);
+        myLinkedList.addAtHead(4);
+        myLinkedList.addAtIndex(5, 0);
+        myLinkedList.addAtHead(6);
     }
 
     public static boolean containsDuplicate(int[] nums) {
@@ -454,7 +466,7 @@ public class HashTableProblems {
 
     }
 
-    class RandomizedSet {
+    static class RandomizedSet {
         // посмотреть задачи которые люди решали в submission details там есть решение с двумя map посмотри, пойми и реши также
 
         Set<Integer> set = new HashSet<>();
@@ -492,6 +504,113 @@ public class HashTableProblems {
             int i = random.nextInt(list.size());
 
             return list.get(i);
+        }
+    }
+
+
+    public static class MyLinkedList {
+        // переписать, добавив size
+
+        Node node;
+
+        public MyLinkedList() {
+            node = new Node();
+        }
+
+        public int get(int index) {
+            Node node = this.node;
+
+            for (int i = 0; i < index; i++) {
+                if (node.next == null) {
+                    return -1;
+                }
+                node = node.next;
+            }
+
+            if (node.val == null) {
+                return -1;
+            }
+
+            return node.val;
+        }
+
+        public void addAtHead(int val) {
+            Node cur = new Node();
+            cur.val = val;
+            if (this.node.val == null) {
+                this.node = cur;
+                return;
+            }
+
+            cur.next = this.node;
+            this.node = cur;
+
+        }
+
+        public void addAtTail(int val) {
+
+            Node cur = new Node();
+            cur.val = val;
+
+            Node node = this.node;
+            while (node.next != null) {
+                node = node.next;
+            }
+            node.next = cur;
+        }
+
+        public void addAtIndex(int index, int val) {
+
+            Node cur = new Node();
+            cur.val = val;
+            if (index == 0) {
+                addAtHead(val);
+                return;
+            }
+
+
+            Node node = this.node;
+            Node prev = new Node();
+            for (int i = 0; i < index; i++) {
+                if (node == null) {
+                    return;
+                }
+                prev = node;
+                node = node.next;
+            }
+
+            cur.next = node;
+            prev.next = cur;
+        }
+
+        public void deleteAtIndex(int index) {
+
+            Node node = this.node;
+            if (index == 0) {
+                node = node.next;
+                this.node = node;
+                if (this.node == null) {
+                    this.node = new Node();
+                }
+                return;
+            }
+
+
+            Node prev = new Node();
+            for (int i = 0; i < index; i++) {
+                if (node.next == null) {
+                    return;
+                }
+                prev = node;
+                node = node.next;
+            }
+            prev.next = node.next;
+        }
+
+        public static class Node {
+            public Integer val;
+            public Node next;
+            public Node prev;
         }
     }
 }
