@@ -130,6 +130,93 @@ public class LinkedListProblems {
 
     }
 
+    public static ListNode removeElements(ListNode head, int val) {
+
+        if (head == null) {
+            return null;
+        }
+        while (head != null && head.val == val) {
+            head = head.next;
+        }
+
+        ListNode node = head;
+
+        while (node != null && node.next != null) {
+            ListNode potential = node.next;
+            if (potential.val == val) {
+                node.next = node.next.next;
+            } else {
+                node = node.next;
+            }
+
+        }
+        return head;
+    }
+
+    public static ListNode removeElementsBest(ListNode head, int val) {
+
+        if (head == null) {
+            return null;
+        }
+
+        ListNode dummy = new ListNode(head.val, head);
+        ListNode node = dummy;
+
+        while (node != null && node.next != null) {
+            ListNode potential = node.next;
+            if (potential.val == val) {
+                node.next = node.next.next;
+            } else {
+                node = node.next;
+            }
+        }
+        return dummy.next;
+    }
+
+    public static ListNode removeElementsBest1(ListNode head, int val) {
+        // На свежую голову разобрать этот метод подход с current и removeElementsBest где используется future
+
+        if (head == null) {
+            return null;
+        }
+
+        ListNode dummy = new ListNode(head.val, head);
+        ListNode prev = dummy;
+        ListNode curr = head;
+
+        while (prev != null && prev.next != null) {
+            if (curr.val == val) {
+                prev.next = curr.next;
+            } else {
+                prev = curr;
+            }
+            curr = curr.next;
+        }
+        return dummy.next;
+    }
+
+    public static ListNode oddEvenList(ListNode head) {
+        // прорешать как в sample 44200 KB submission посмотри и повтори также
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode odd = head;
+        ListNode even = head.next;
+
+        ListNode oddDummy = odd;
+        ListNode oddEven = even;
+
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next;
+            odd = odd.next;
+            even.next = even.next.next;
+            even = even.next;
+        }
+        odd.next = oddEven;
+
+        return oddDummy;
+    }
+
     public static class ListNode {
         int val;
         ListNode next;
