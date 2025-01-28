@@ -321,6 +321,34 @@ public class LinkedListProblems {
         return head.next;
     }
 
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        ListNode head = new ListNode(0);
+        ListNode node = head;
+
+        int dozen = 0;
+
+        while (l1 != null || l2 != null || dozen != 0) {
+            int sum = dozen;
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            int rest = sum % 10;
+            dozen = sum / 10;
+
+            ListNode curr = new ListNode(rest);
+            node.next = curr;
+            node = curr;
+        }
+
+        return head.next;
+    }
+
     public static class ListNode {
         int val;
         ListNode next;
