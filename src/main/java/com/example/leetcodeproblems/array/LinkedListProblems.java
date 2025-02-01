@@ -8,13 +8,13 @@ public class LinkedListProblems {
 
     public static void main(String[] args) {
 
-        LinkedListProblems.MyLinkedList myLinkedList = new LinkedListProblems.MyLinkedList();
-        myLinkedList.addAtHead(1);
-        myLinkedList.addAtTail(3);
-        myLinkedList.addAtIndex(1, 2);    // linked list becomes 1->2->3
-        myLinkedList.get(1);              // return 2
-        myLinkedList.deleteAtIndex(1);    // now the linked list is 1->3
-        myLinkedList.get(1);
+//        LinkedListProblems.MyLinkedList myLinkedList = new LinkedListProblems.MyLinkedList();
+//        myLinkedList.addAtHead(1);
+//        myLinkedList.addAtTail(3);
+//        myLinkedList.addAtIndex(1, 2);    // linked list becomes 1->2->3
+//        myLinkedList.get(1);              // return 2
+//        myLinkedList.deleteAtIndex(1);    // now the linked list is 1->3
+//        myLinkedList.get(1);
 
 //        myLinkedList.addAtHead(7);
 //        myLinkedList.addAtHead(2);
@@ -27,6 +27,28 @@ public class LinkedListProblems {
 //        myLinkedList.addAtHead(4);
 //        myLinkedList.addAtIndex(5, 0);
 //        myLinkedList.addAtHead(6);
+
+        Node node = new Node();
+        node.val = 1;
+        Node curr = node;
+        for (int i = 2; i < 5; i++) {
+            Node dummy = new Node();
+            dummy.val = i;
+            curr.next = dummy;
+            curr = curr.next;
+        }
+        node.next.next.child = new Node();
+        node.next.next.child.val = 5;
+        curr = node.next.next.child;
+        for (int i = 6; i < 9; i++) {
+            Node dummy = new Node();
+            dummy.val = i;
+            curr.next = dummy;
+            curr = curr.next;
+        }
+        Node flatten = flatten(node);
+        System.out.println(flatten);
+
 
     }
 
@@ -348,6 +370,195 @@ public class LinkedListProblems {
 
         return head.next;
     }
+
+    public static Node flatten(Node head) {
+        // на выходных перерешать задачу по другому, есть другой способ решения, нахоидтся в solutions. Посмотреть ход решения, запомнить. Написать от памяти ход решения
+
+        Node node = new Node();
+        Node curr = node;
+
+        Node dummy = head;
+
+        while (dummy != null) {
+
+            Node temp = new Node();
+            temp.val = dummy.val;
+            if (curr.val != 0) {
+                temp.prev = curr;
+            }
+            curr.next = temp;
+            curr = curr.next;
+
+            if (dummy.child != null) {
+                Node tempDeep = flatten(dummy.child);
+                tempDeep.prev = curr;
+                curr.next = tempDeep;
+
+                while (curr != null && curr.next != null) {
+                    curr = curr.next;
+                }
+            }
+            dummy = dummy.next;
+        }
+
+        return node.next;
+    }
+
+    public static Node copyRandomList(Node head) {
+
+        // мое решение это brute force
+        Node newHead = new Node(0);
+        Node newCurr = newHead;
+
+        Node curr = head;
+
+        while (curr != null) {
+            newCurr.next = new Node(curr.val);
+            newCurr = newCurr.next;
+
+            curr = curr.next;
+        }
+
+        curr = head;
+        newCurr = newHead.next;
+        while (curr != null) {
+            if (curr.random == null) {
+                newCurr.random = null;
+            } else {
+
+                Node temp = head;
+                Node newTemp = newHead.next;
+                asd:
+                while (temp != null) {
+                    if (temp == curr.random) {
+                        newCurr.random = newTemp;
+                        break asd;
+                    }
+
+                    temp = temp.next;
+                    newTemp = newTemp.next;
+                }
+
+            }
+
+            curr = curr.next;
+            newCurr = newCurr.next;
+
+        }
+
+
+        return newHead.next;
+    }
+
+    public static Node copyRandomListBEST(Node head) {
+        // Есть такое ж решение как у тебя в submissions, только по элигантнее, запомни, и напиши от памяти элегантный код
+        Node curr = head;
+
+        while (curr != null) {
+            Node dummy = curr;
+            Node temp = new Node(dummy.val);
+            temp.next = curr.next;
+            curr = curr.next;
+            dummy.next = temp;
+        }
+
+        curr = head;
+
+        while (curr != null && curr.next != null) {
+
+            Node dummy = curr.next;
+
+            if (curr.random == null) {
+                dummy.random = null;
+            } else {
+                dummy.random = curr.random.next;
+            }
+
+            curr = curr.next.next;
+
+        }
+
+        Node newHead = new Node(0);
+        Node newCurr = newHead;
+        curr = head;
+        while (curr != null) {
+
+            Node dummy = curr.next;
+            newCurr.next = dummy;
+
+            curr.next = curr.next.next;
+            curr = curr.next;
+            newCurr = newCurr.next;
+        }
+
+        return newHead.next;
+    }
+
+    public static ListNode rotateRight(ListNode head, int k) {
+        // Есть решение в solutions где решили через Circle, нужно также связать конец с началом и потом посчитать и разорвать circle
+        if (head == null) {
+            return head;
+        }
+
+        ListNode tail = head;
+        for (int i = 0; i < k; i++) {
+            tail = tail.next;
+            if (tail == null) {
+                tail = head;
+            }
+        }
+        if (tail == head) {
+            return head;
+        }
+
+        ListNode temp = head;
+        while (tail != null && tail.next != null) {
+            tail = tail.next;
+            temp = temp.next;
+        }
+        ListNode newHead = temp.next;
+        temp.next = null;
+
+        tail.next = head;
+
+        return newHead;
+
+    }
+
+    public static void deleteNode(ListNode node) {
+        // Есть самое тупое решение и гениальное: реши так, не смотри в ответ решения
+        ListNode dummy = node;
+        ListNode prev = node;
+
+        while (dummy != null && dummy.next != null) {
+            if (dummy.next.next != null) {
+                prev = dummy.next;
+            }
+            ListNode next = dummy.next;
+            dummy.val = next.val;
+
+            dummy = dummy.next;
+        }
+        prev.next = null;
+    }
+
+
+    public static class Node {
+        public int val;
+        public Node prev;
+        public Node next;
+        public Node child;
+        public Node random;
+
+        public Node() {
+        }
+
+        public Node(int val) {
+            this.val = val;
+        }
+    }
+
+    ;
 
     public static class ListNode {
         int val;
