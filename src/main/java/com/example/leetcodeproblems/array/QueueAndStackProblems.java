@@ -1,8 +1,6 @@
 package com.example.leetcodeproblems.array;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 public class QueueAndStackProblems {
 
@@ -33,6 +31,37 @@ public class QueueAndStackProblems {
         int top = minStack.top();
         System.out.println();
     }
+
+    public static boolean isValid(String s) {
+
+        Set<Character> openChars = new HashSet<>(List.of('(', '[', '{'));
+        Map<Character, Character> map = new HashMap<>();
+        map.put('}', '{');
+        map.put(')', '(');
+        map.put(']', '[');
+
+        Deque<Character> queue = new ArrayDeque<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (openChars.contains(s.charAt(i))) {
+                queue.add(s.charAt(i));
+                continue;
+            }
+            if (queue.isEmpty()) {
+                return false;
+            }
+
+            Character bracketTheOpenOfClosed = map.get(s.charAt(i));
+            Character bracketTheOpen = queue.removeLast();
+
+            if (bracketTheOpen != bracketTheOpenOfClosed) {
+                return false;
+            }
+
+        }
+        return queue.isEmpty();
+    }
+
 
     public static class MyCircularQueue {
 
