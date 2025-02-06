@@ -22,14 +22,86 @@ public class QueueAndStackProblems {
 //        System.out.println();
 
 
-        MinStack minStack = new MinStack();
+//        MinStack minStack = new MinStack();
+//
+//        minStack.push(-1);
+//        minStack.push(-1);
+//        minStack.push(-1);
+//
+//        int top = minStack.top();
+//        System.out.println();
 
-        minStack.push(-1);
-        minStack.push(-1);
-        minStack.push(-1);
 
-        int top = minStack.top();
-        System.out.println();
+        int[] ints = dailyTemperaturesBest(new int[]{30, 40, 50, 60});
+        System.out.println(ints); // [1,1,4,2,1,1,0,0]
+    }
+
+    public static int[] dailyTemperaturesBest(int[] temperatures) {
+        // есть более элегантный способ решить эту задачу через stack/ Можно переписать этот код на более элегантный способ,
+        // подсказка есть в solutions а перед этим моя подсказка, можешь испльзовать только index в stack, значения убрать и второе ты можешь  поднять while и удалть верхние ифки
+
+        Deque<int[]> bigToSmall = new ArrayDeque<>();
+
+        int[] days = new int[temperatures.length];
+        for (int i = 0; i < temperatures.length; i++) {
+
+            int temperature = temperatures[i];
+
+            if (bigToSmall.isEmpty()) {
+                bigToSmall.addLast(new int[]{temperature, i});
+                continue;
+            }
+
+            int[] values = bigToSmall.getLast();
+            if (values[0] >= temperature) {
+                bigToSmall.addLast(new int[]{temperature, i});
+                continue;
+            }
+
+            while (!bigToSmall.isEmpty()) {
+                values = bigToSmall.getLast();
+                if (values[0] >= temperature) {
+                    break;
+                }
+                days[values[1]] = i - values[1];
+                bigToSmall.removeLast();
+            }
+            bigToSmall.addLast(new int[]{temperature, i});
+
+        }
+        return days;
+
+    }
+
+    public static int[] dailyTemperatures(int[] temperatures) {
+        int[] days = new int[temperatures.length];
+        if (temperatures.length == 1) {
+            return new int[]{0};
+        }
+
+        for (int i = 0; i < temperatures.length; i++) {
+            days[i] = 0;
+            int prevTemp = (i - 1 >= 0) ? temperatures[i - 1] : 0;
+            int temp = temperatures[i];
+
+            asd:
+            for (int j = i + 1; j < temperatures.length; j++) {
+
+                int warm = temperatures[j];
+
+                if (prevTemp == temp) {
+                    days[i] = days[i - 1] > 0 ? days[i - 1] - 1 : 0;
+                    break asd;
+                }
+                if (temp < warm) {
+                    days[i] = j - i;
+                    break asd;
+                }
+            }
+
+        }
+        return days;
+
     }
 
     public static boolean isValid(String s) {
