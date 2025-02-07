@@ -32,8 +32,52 @@ public class QueueAndStackProblems {
 //        System.out.println();
 
 
-        int[] ints = dailyTemperaturesBest(new int[]{30, 40, 50, 60});
-        System.out.println(ints); // [1,1,4,2,1,1,0,0]
+//        int[] ints = dailyTemperaturesBest(new int[]{30, 40, 50, 60});
+//        System.out.println(ints); // [1,1,4,2,1,1,0,0]
+
+        int value = evalRPN(new String[]{"2", "1", "+", "3", "*"});
+        System.out.println(value);
+    }
+
+    public static int evalRPN(String[] tokens) {
+        // Можно реализовать более элегантно, сделай следующие шаги, создай Map вместо хэшмапа и укажи в значение FunctionalInterface, a stack сделай сразу Integer
+        // Элегантный код есть в submissions
+        Stack<String> stack = new Stack<>();
+
+        Set<String> operations = new HashSet<>(List.of("-", "+", "*", "/"));
+
+        for (String token : tokens) {
+
+            stack.push(token);
+
+            if (!operations.contains(token)) {
+                continue;
+            }
+            if (stack.size() < 3) {
+                return -1;
+            }
+            String operation = stack.pop();
+            Integer second = Integer.valueOf(stack.pop());
+            Integer first = Integer.valueOf(stack.pop());
+            String result = "";
+
+            if (Objects.equals(operation, "+")) {
+                result = String.valueOf(first + second);
+            } else if (Objects.equals(operation, "-")) {
+                result = String.valueOf(first - second);
+            } else if (Objects.equals(operation, "*")) {
+                result = String.valueOf(first * second);
+            } else if (Objects.equals(operation, "/")) {
+                result = String.valueOf(first / second);
+            } else {
+                return -1;
+            }
+            stack.push(result);
+        }
+        if (stack.size() > 1) {
+            return -1;
+        }
+        return Integer.parseInt(stack.pop());
     }
 
     public static int[] dailyTemperaturesBest(int[] temperatures) {
