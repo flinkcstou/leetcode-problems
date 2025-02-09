@@ -35,8 +35,47 @@ public class QueueAndStackProblems {
 //        int[] ints = dailyTemperaturesBest(new int[]{30, 40, 50, 60});
 //        System.out.println(ints); // [1,1,4,2,1,1,0,0]
 
-        int value = evalRPN(new String[]{"2", "1", "+", "3", "*"});
-        System.out.println(value);
+//        int value = evalRPN(new String[]{"2", "1", "+", "3", "*"});
+//        System.out.println(value);
+
+
+        decodeString("100[leetcode]");
+    }
+
+    public static String decodeString(String s) {
+        // можно переписать по элегантнее, создай четыре переменных, Stack<Integer>, Stack<StringBuilder>, StringBuilder, Integer count;
+        // и нужно создать 4 if и можно убрать while while
+        // решение элегантное есть в submissions
+
+        Deque<String> deque = new ArrayDeque<>();
+
+        for (int i = 0; i < s.length(); i++) {
+
+            if (s.charAt(i) == ']') {
+                String str = "";
+                while (!deque.isEmpty() && !Objects.equals(deque.getLast(), "[")) {
+                    String character = deque.removeLast();
+                    str = character + str;
+                }
+
+                deque.removeLast();
+                String count = "";
+                while (!deque.isEmpty() && Character.isDigit(deque.getLast().charAt(0))) {
+                    count = deque.getLast().charAt(0) + count;
+                    deque.removeLast();
+                }
+                str = str.repeat(Integer.valueOf(count));
+                deque.addLast(str);
+                continue;
+            }
+
+            deque.addLast(String.valueOf(s.charAt(i)));
+
+
+        }
+
+        return String.join("", deque);
+
     }
 
     public static int evalRPN(String[] tokens) {
