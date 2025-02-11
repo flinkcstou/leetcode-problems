@@ -42,6 +42,28 @@ public class QueueAndStackProblems {
         decodeString("100[leetcode]");
     }
 
+    public static boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        // можно в разы элегантнее написать, посмотри в editorial, запомни код и напиши от памяти,
+        // можно также решить через recursion ответ есть в submissions тоже посмотри, запомни и напиши решение от памяти
+        Set<Integer> set = new HashSet<>();
+        Deque<Integer> deque = new ArrayDeque<>();
+
+        if (rooms == null || rooms.size() == 1) {
+            return true;
+        }
+        set.add(0);
+        rooms.get(0).stream().filter(it -> !set.contains(it)).forEach(deque::addLast);
+
+        while (!deque.isEmpty()) {
+            Integer i = deque.removeFirst();
+            if (i < rooms.size() && set.add(i)) {
+                rooms.get(i).stream().filter(it -> !set.contains(it)).forEach(deque::addLast);
+            }
+        }
+
+        return rooms.size() == set.size();
+    }
+
     public static String decodeString(String s) {
         // можно переписать по элегантнее, создай четыре переменных, Stack<Integer>, Stack<StringBuilder>, StringBuilder, Integer count;
         // и нужно создать 4 if и можно убрать while while
