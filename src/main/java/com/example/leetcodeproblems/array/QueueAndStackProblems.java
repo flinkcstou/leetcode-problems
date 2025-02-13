@@ -40,7 +40,49 @@ public class QueueAndStackProblems {
 
 
         decodeString("100[leetcode]");
+
+        int i = numSquares(12);
+        System.out.println(i);
     }
+
+    public static int numSquares(int n) {
+        /*
+         * Завтра переписать этот код и сделать более элегантным более коротким более четким
+         * Можно в обратку переписать это когда начинаешь с нуля и до той суммы который хочешь а не вычитать( разность)
+         * */
+
+        int[] visited = new int[n];
+        Deque<int[]> deque = new ArrayDeque<>();
+        deque.addLast(new int[]{1, n});
+
+        while (!deque.isEmpty()) {
+
+
+            int[] stack = deque.removeFirst();
+            int index = stack[0];
+            int sum = stack[1];
+
+            asd:
+            for (int i = 1; i <= n; i++) {
+                int result = sum - (i * i);
+                if (result < 0) {
+                    break asd;
+                }
+                if (visited[result] == 1) {
+                    continue;
+                }
+
+                visited[result] = 1;
+                if (result == 0) {
+                    return index;
+                }
+                deque.addLast(new int[]{index + 1, result});
+            }
+        }
+
+        return -1;
+    }
+
 
     public static boolean canVisitAllRooms(List<List<Integer>> rooms) {
         // можно в разы элегантнее написать, посмотри в editorial, запомни код и напиши от памяти,
