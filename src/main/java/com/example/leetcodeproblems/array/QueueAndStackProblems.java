@@ -39,10 +39,10 @@ public class QueueAndStackProblems {
 //        System.out.println(value);
 
 
-        decodeString("100[leetcode]");
+//        decodeString("100[leetcode]");
 
-        int i = numSquares(12);
-        System.out.println(i);
+//        int i = numSquares(12);
+//        System.out.println(i);
     }
 
     public static int numSquares(int n) {
