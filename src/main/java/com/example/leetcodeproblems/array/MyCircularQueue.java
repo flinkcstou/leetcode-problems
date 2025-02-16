@@ -35,7 +35,7 @@ public class MyCircularQueue {
             tail = -1;
             return true;
         }
-        head = (head + 1) + size;
+        head = (head + 1) % size;
         return true;
     }
 
