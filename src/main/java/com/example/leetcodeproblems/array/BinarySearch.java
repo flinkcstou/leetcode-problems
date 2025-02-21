@@ -4,8 +4,144 @@ public class BinarySearch {
 
     public static void main(String[] args) {
 
-        mySqrt(2);
-        mySqrt1(8);
+//        mySqrt(2);
+//        mySqrt1(8);
+
+        int i = searchRotatedBest(new int[]{5, 6, 0, 1, 2, 3, 4}, 0);
+        System.out.println(i);
+    }
+
+    public static int searchRotatedBest2(int[] nums, int target) {
+
+        int left = 0;
+        int right = nums.length - 1;
+
+        while (left <= right) {
+
+            int middle = left + (right - left) / 2;
+
+            if (nums[middle] == target) {
+                return middle;
+            }
+            if (nums[left] <= nums[middle]) {
+                if (target >= nums[left] && target <= nums[middle]) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                }
+                continue;
+            }
+            if (nums[middle] <= nums[right]) {
+                if (target >= nums[middle] && target <= nums[right]) {
+                    left = middle + 1;
+                } else {
+                    right = middle - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static int searchRotatedBest(int[] nums, int target) {
+
+        int left = 0;
+        int right = nums.length - 1;
+
+
+        while (left <= right) {
+
+            int middle = left + (right - left) / 2;
+
+            if (nums[left] <= nums[middle]) {
+                if (target >= nums[left] && target <= nums[middle]) {
+                    int start = left;
+                    int end = middle;
+
+                    while (start <= end) {
+                        int center = start + (end - start) / 2;
+
+                        if (nums[center] == target) {
+                            return center;
+                        }
+                        if (nums[center] > target) {
+                            end = center - 1;
+                        }
+                        if (nums[center] < target) {
+                            start = center + 1;
+                        }
+                    }
+                    return -1;
+                } else {
+                    left = middle + 1;
+                    continue;
+                }
+            }
+            if (nums[middle] <= nums[right]) {
+                if (target >= nums[middle] && target <= nums[right]) {
+                    int start = middle;
+                    int end = right;
+
+                    while (start <= end) {
+                        int center = start + (end - start) / 2;
+
+                        if (nums[center] == target) {
+                            return center;
+                        }
+                        if (nums[center] > target) {
+                            end = center - 1;
+                        }
+                        if (nums[center] < target) {
+                            start = center + 1;
+                        }
+                    }
+                    return -1;
+                } else {
+                    right = middle - 1;
+                    continue;
+                }
+            }
+
+
+        }
+
+        return -1;
+    }
+
+    public static int searchRotated(int[] nums, int target) {
+        int rotate = 0;
+        int start = 0;
+        int end = nums.length;
+
+        if (nums[0] > nums[nums.length - 1]) {
+            for (int i = 0; i < nums.length - 1; i++) {
+                if (nums[i] < nums[i + 1]) {
+                } else {
+
+                    rotate = i + 1;
+                    break;
+                }
+            }
+        }
+
+        while (start <= end) {
+            int middle = start + (end - start) / 2;
+
+            int pos = (middle + rotate) % nums.length;
+
+            if (nums[pos] == target) {
+                return pos;
+            }
+            if (nums[pos] > target) {
+                end = middle - 1;
+            }
+            if (nums[pos] < target) {
+                start = middle + 1;
+            }
+
+        }
+        return -1;
+
+
     }
 
     public static int mySqrt1(int x) {
