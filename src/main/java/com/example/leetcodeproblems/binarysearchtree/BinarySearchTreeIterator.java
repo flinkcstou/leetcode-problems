@@ -19,6 +19,8 @@ public class BinarySearchTreeIterator {
     }
 
     public static class BSTIterator {
+        // inorderStack можно переписать на две части, первый дойти до левого края, а вторая next продолжить дальше
+        // необходимо тебе переписать, несмотря на solutions. Самому вспомнить из головы. переписать и проверить все ли верно написал
         private Deque<Integer> deque = new ArrayDeque<>();
 
         public BSTIterator(TreeNode root) {
